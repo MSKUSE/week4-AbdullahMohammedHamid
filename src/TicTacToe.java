@@ -1,5 +1,5 @@
 
-
+import java.util.Scanner;
 /**
  * A simple Tic-Tac-Toe game implementation in Java.
  */
@@ -11,7 +11,37 @@ public class TicTacToe {
 	 * @param args Command line arguments (not used).
 	 */
 	public static void main(String[] args) {
-		// TODO: Initialize the game board and scanner
+    Scanner reader = new Scanner(System.in);
+		char[][] board = {
+				{' ', ' ', ' '},
+				{' ', ' ', ' '},
+				{' ', ' ', ' '},
+		};
+		printBoard(board);
+		int validMoves = 0;
+		boolean gameEnded = false;
+		int player =0;
+
+		while(!gameEnded){
+			System.out.println("player "+
+					(player +1 )+"Enter your row number (1-3):");
+			int row = reader.nextInt();
+			System.out.println("player "+
+					(player +1 )+"Enter your column number (1-3):");
+			int col = reader.nextInt();
+			if(isValid(row,col) && board[row-1][col-1] == ' ') {
+				board[row - 1][col - 1] = player == 0 ? 'X' : 'O';
+				printBoard(board);
+				player = ++player % 2;
+				validMoves++;
+
+			}else{
+				System.out.println("please provide another ");
+			}
+			gameEnded = validMoves ==9|| checkboard(board,row-1,col-1);
+
+		}
+
 		// TODO: Print the initial game board
 		// TODO: Prompt the current player for their move
 		// TODO: Update the board with the player's move
@@ -20,20 +50,61 @@ public class TicTacToe {
 	}
 
 
-
-
 	/**
 	 * Checks if the current player has won the game.
 	 *
 	 * @param board The game board.
-	 * @param row The row of the last move.
-	 * @param col The column of the last move.
+	 * @param row   The row of the last move.
+	 * @param col   The column of the last move.
 	 * @return True if the current player has won, false otherwise.
 	 */
 	public static boolean checkboard(char[][] board, int row, int col) {
-		// TODO: Implement the logic to check if the current player has won
-        return false;
-    }
+		char symbol = board[row][col];
+		boolean win = true;
+		for (int i = 0; i < 3; i++) {
+			if (board[row][i] != symbol) {
+				win = false;
+				break;
+			}
+			if (win) {
+				return true;
+
+			}
+			for (int i = 0; i < 3; i++) {
+				return win;
+				break;
+
+			}
+		}
+		if(win){
+			return true;
+
+		}
+		if(row == col){
+			win = true;
+			for (int i = 0; i < 3; i++) {
+				if(board[i][i]) !=symbol){
+					win = false;
+					break;
+				}
+
+			}
+		}
+		if(row + col == 2){
+			win = true;
+				for (int i = 0; i < 3; i++) {
+					if(board[2-i][i] != symbol){
+						win = false;
+						break;
+					}
+
+			}
+				if(win){
+					return true;
+				}
+		}
+		return false;
+	}
 
 	/**
 	 * Prints the current state of the game board.
@@ -41,7 +112,21 @@ public class TicTacToe {
 	 * @param board The game board.
 	 */
 	public static void printBoard(char[][] board) {
-		// TODO: Implement the logic to print the game board
+		System.out.println("	   1	2	3");
+		System.out.println("	-----------------");
+		for (int row = 0; row < 3; row++) {
+			System.out.print(row + 1 + " ");
+			for (int col = 0; col < 3; col++) {
+				System.out.print(" | ");
+				System.out.print(" " +
+						board[row][col] + " ");
+				if (col == 2)
+					System.out.println(" |");
+			}
+			System.out.println();
+			System.out.println(" --------------------");
+
+		}
 	}
 
 	/**
@@ -52,7 +137,13 @@ public class TicTacToe {
 	 * @return True if the row and column are valid, false otherwise.
 	 */
 	public static boolean isValid(int row, int col) {
-		// TODO: Implement the logic to validate the row and column
-		return false;
+		if (col < 1 || col > 3) {
+			return false;
+		}
+		if(col <1 || col >3){
+			return false;
+		}
+		return true;
+
 	}
 }
